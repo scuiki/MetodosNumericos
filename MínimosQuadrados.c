@@ -1,10 +1,12 @@
 /*
 Erick Miranda Viana - 211857
 Leonardo Kuntz Oliveira - 222831
-Tiago Tavares de Lima GonÁalves - 222566
+Tiago Tavares de Lima Gon√ßalves - 222566
 
-Um programa capaz de encontrar um polinÙmio p(x) que se ajuste a um conjunto de pontos
-tabelados (x e f(x)) de uma funÁ„o desconhecida.
+Um programa capaz de encontrar um polin√¥mio p(x) que se ajuste a um conjunto de pontos
+tabelados (x e f(x)) de uma fun√ß√£o desconhecida.
+
+Obs.: Fotos para melhor entendimento do c√≥digo podem ser encontradas em: https://github.com/scuiki/MetodosNumericos/wiki
 */
 
 #include<stdio.h>
@@ -19,15 +21,15 @@ char c;
 //Usando Vetores
 float *x = NULL; //x
 float *y = NULL; //f(x)
-float *sx = NULL; //SomatÛria
-float *csx = NULL; //CÛpia de "sx"
+float *sx = NULL; //Somat√≥ria
+float *csx = NULL; //C√≥pia de "sx"
 float *ccsx = NULL;
 float *cccsx = NULL;
 float *sy = NULL;
 float *csy = NULL;
 float *ccsy = NULL;
 float *cccsy = NULL;
-float *p = NULL; //PivÙ
+float *p = NULL; //Piv√¥
 float *a = NULL;
 	
 	do {
@@ -39,7 +41,7 @@ float *a = NULL;
 			scanf ("%i", &n);
 		}	while (n < 1);
 	
-		//AlocaÁ„o
+		//Aloca√ß√£o
 		x = (float *)malloc(n * sizeof(float));
 		y = (float *)malloc(n * sizeof(float));
 		sx = (float *)malloc(5 * sizeof(float));
@@ -65,41 +67,51 @@ float *a = NULL;
 			scanf ("%f", (y + i));
 		}
 		
-		//SomatÛria
+		//Somat√≥ria
 		for (i = 0; i < 5; i++) {
 		soma = 0;
 			for (j = 0; j < n; j++) {
 				soma = soma + pow (*(x + j), i);
 			}
-		*(sx + i) = soma; //CriaÁ„o de um novo vetor com os valores obtidos pelas somatÛrias
+		*(sx + i) = soma; //Cria√ß√£o de um novo vetor com os valores obtidos pelas somat√≥rias
 		}
 		
-		//SomatÛria do produto y*x^i
+		//Somat√≥ria do produto y*x^i
 		for (i = 0; i < 3; i++) {
 		soma = 0;
 			for (j = 0; j < n; j++) {
 				soma = soma + (*(y + j) * pow (*(x + j), i));
 			}
-		*(sy + i) = soma; //CriaÁ„o de um novo vetor com os valores obtidos pelas somatÛrias
+		*(sy + i) = soma; //Cria√ß√£o de um novo vetor com os valores obtidos pelas somat√≥rias
+		}
+		
+		//Tabela
+		for (i = 0; i < 3; i++) {
+			printf ("\n|");
+			for (j = 0 + i; j < 3 + i; j++) {
+				printf (" %.3f |", *(sx + j));
+			}
+			printf (" A%i ", i);
+			printf ("| %.3f |", *(sy + i));
 		}
 	
 		do {
-		printf ("\nFamilia a qual o p(x) pertence (1/2): ");
+		printf ("\n\nFamilia a qual o p(x) pertence (1/2): ");
 		fflush (stdin);
 		scanf ("%i", &f);
 		}	while (f < 1 || f > 2);
 		
-		*p = *(sx + 1)/ *sx; //Primeiro pivÙ
+		*p = *(sx + 1)/ *sx; //Primeiro piv√¥
 		
 		
-			*(p + 1) = *(sx + 2)/ *sx; //Segundo pivÙ
+			*(p + 1) = *(sx + 2)/ *sx; //Segundo piv√¥
 			
 			for (i = 0; i < 3; i++) {
 				*(csx + i) = *(sx + 1 + i) - (*(sx + i) * *(p)); //Linha 2 (x)
 				*(ccsx + i) = *(sx + 2 + i) - (*(sx + i) * *(p + 1)); //Linha 3 (x)
 			}
 			
-			*(p + 2) = *(ccsx + 1)/ *(csx + 1); //Terceiro pivÙ
+			*(p + 2) = *(ccsx + 1)/ *(csx + 1); //Terceiro piv√¥
 			
 			for (i = 0; i < 3; i++) {
 				*(cccsx + i) = *(ccsx + i) - (*(csx + i) * *(p + 2)); //Nova linha 3 (x)
@@ -111,28 +123,78 @@ float *a = NULL;
 			
 			*cccsy = *ccsy - (*csy * *(p + 2)); //y * x^2
 			
-		//Caso para par·bolas	
+		//Caso para par√°bolas	
 		if (f == 2) {	
+			
+			//Tabela
+			for (i = 0; i < 3; i++) {
+			printf ("\n");
+				for (j = 0; j < 3; j++) {
+					if (i == 0) {
+						printf ("| %.3f ", *(sx + j));
+					}
+					if (i == 1) {
+						printf ("| %.3f ", *(csx + j));
+					}
+					if (i == 2) {
+						printf ("| %.3f ", *(cccsx + j));
+					}
+				}
+				printf ("| A%i ", i);
+				if (i == 0) {
+					printf ("| %.3f |", *sy);
+				}
+				if (i == 1) {
+					printf ("| %.3f |", *csy);
+				}
+				if (i == 2) {
+					printf ("| %.3f |", *cccsy);
+				}	
+			}
+		
 			*(a + 2) = *cccsy / *(cccsx + 2); //A2
-			printf ("\nA2: %f", *(a + 2));
+			printf ("\n\nA2: %f", *(a + 2));
 			
 			*(a + 1) = (*csy - *(csx + 2) * *(a + 2))/ (*(csx + 1)); //A1
 			printf ("\nA1: %f", *(a + 1));
 			
 			*a = (*sy - ( *(sx + 2) * *(a + 2) ) -  *(sx + 1) * *(a + 1) )/ *sx; //A0
 			printf ("\nA0: %f", *a);
+			printf ("\n\n%fx^2 + %fx^1 + %fx^0", *(a + 2), *(a + 1), *a);
 		}
 		
 		//Caso para retas
 		if (f == 1) {
+			
+			//Tabela
+			for (i = 0; i < 2; i++) {
+				printf ("\n");
+				for (j = 0; j < 2; j++) {
+					if (i == 0) {
+						printf ("| %.3f ", *(sx + j));
+					}
+					if (i == 1) {
+						printf ("| %.3f ", *(csx + j));
+					}
+				}
+				printf ("| A%i ", i);
+				if (i == 0) {
+					printf ("| %.3f |", *sy);
+				}
+				if (i == 1) {
+					printf ("| %.3f |", *csy);
+				}	
+			}
+			
 			*(a + 1) = *csy / *(csx + 1); //A1
-			printf ("\nA1: %f", *(a + 1));
+			printf ("\n\nA1: %f", *(a + 1));
 			
 			*a = (*sy - *(sx + 1) * *(a + 1)) / *sx; //A0
 			printf ("\nA0: %f", *a);
+			printf ("\n\n%fx^1 + %fx^0", *(a + 1), *a);
 		}
 	
-		//Caso o usu·rio queira, executar o programa de novo
+		//Caso o usu√°rio queira, executar o programa de novo
 		printf ("\n\nInserir nova funcao? (S/N)");
 		fflush (stdin);	
 		scanf ("%c", &c);
@@ -140,5 +202,4 @@ float *a = NULL;
 		if (c == 's' || c == 'S')
 			system ("cls");
 	}	while (c == 's' || c == 'S');
-	
 }	
