@@ -1,9 +1,9 @@
 /*
 Erick Miranda Viana - 211857
 Leonardo Kuntz Oliveira - 222831
-Tiago Tavares de Lima Gonçalves - 222566
+Tiago Tavares de Lima GonÃ§alves - 222566
 
-Um programa capaz de calcular a integral de um polinômio (exemplo: x³ - 2x² +3) em um dado
+Um programa capaz de calcular a integral de um polinÃ´mio (exemplo: xÂ³ - 2xÂ² +3) em um dado
 intervalo (exemplo 0 a 2).
 */
 
@@ -11,7 +11,7 @@ intervalo (exemplo 0 a 2).
 #include <stdlib.h>
 #include <math.h>
 
-//Protótipo das funções
+//ProtÃ³tipo das funÃ§Ãµes
 float funcao (float valor);
 float altura (float a, float b, float n);
 
@@ -27,10 +27,10 @@ float a, b, h, n, soma, p, integral;
 char s;	
 
 	do {
-	//Limpar o conteúdo das variáveis	
+	//Limpar o conteÃºdo das variÃ¡veis	
 	integral = 0;
 	soma = 0;	
-		//Receber o grau da função entre 2 a 10
+		//Receber o grau da funÃ§Ã£o entre 2 a 10
 		do {
 			system ("cls");
 		   	printf ("Informe o grau da funcao (2 a 10): ");
@@ -38,7 +38,7 @@ char s;
 		   	scanf ("%i", &grau);
 		}	while (grau < 2 || grau > 10);
 		
-		//Alocação do tamanho solicitado (grau indicado)
+		//AlocaÃ§Ã£o do tamanho solicitado (grau indicado)
 		multi = (float *)malloc(grau * sizeof(float));
 			
 		
@@ -51,7 +51,7 @@ char s;
 		}
 		
 		system ("cls");
-		//Exibindo a função recebida
+		//Exibindo a funÃ§Ã£o recebida
 		printf("A funcao recebida foi: ");
 		for (i = 0; i <= grau; i++)	{
 		    printf ("%.2fx^%i", *(multi + i), i);
@@ -79,9 +79,9 @@ char s;
 		h = (b - a)/n;
 		printf ("\nh = %f\n", h);
 		    
-		//Somatória
+		//SomatÃ³ria
 		for (i = 1; i <= n - 1; i++) {
-		  	p = a + (h * i); //"p" é a progressão de subintervalos
+		  	p = a + (h * i); //"p" Ã© a progressÃ£o de subintervalos
 		    	
 		   	soma = soma + (2 * funcao (p));
 		}
@@ -92,7 +92,7 @@ char s;
 		//Resultado
 		printf ("\nIntegral: %f\n", integral);
 		
-		//Continuação do programa
+		//ContinuaÃ§Ã£o do programa
 		printf ("\nContinuar? (S/N)\n");
 		fflush (stdin);
 		scanf ("%c", &s);
@@ -101,7 +101,7 @@ char s;
 }
 
 
-//Função que realiza o cálculo em um determinado ponto
+//FunÃ§Ã£o que realiza o cÃ¡lculo em um determinado ponto
 float funcao (float valor) {
     int i;
     float resultado = 0;
